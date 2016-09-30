@@ -8,20 +8,7 @@ function messageController () {
     
 	// Send New Message
 	this.sendMessage = function (req, res, next) {
-		var name = req.params.name;
-		var email = req.params.email;
-		var age = req.params.age;
-		var city = req.params.city;
 		
-		Student.create({name:name,email:email,age:age,city:city}, function(err, result) {
-			if (err) {
-				console.log(err);
-				return res.send({'error':err});	
-			}
-			else {
-                return res.send({'result':result,'status':'successfully sent'});
-            }
-		});
 	};  
     
   // Receive FB Messages
@@ -61,7 +48,7 @@ function messageController () {
     };
     
     /////////////////////////////////////////////////////////////////////////////
-    // METHODS                                                                 //
+    // PRIVATE METHODS                                                         //
     /////////////////////////////////////////////////////////////////////////////
     
     // Echo back received message
