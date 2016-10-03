@@ -2,14 +2,22 @@
 
 function messageController () {
 
-    var Message = {};
+  var Message = {};
+  //var PAGE_ACCESS_TOKEN = {};
 	
 
     
-	// Send New Message
-	this.sendMessage = function (req, res, next) {
-		
-	};  
+  // Send New Message
+  this.sendMessage = function (req, res, next) {
+
+     var recipientID       = req.params.recipient.id;
+     var recipientTel      = req.params.recipient.tel;
+     var messageData       = req.params.messageData;
+     var PAGE_ACCESS_TOKEN = req.params.PAGE_ACCESS_TOKEN;
+      
+     callSendAPI(messageData, PAGE_ACCESS_TOKEN);
+      
+  };  
     
   // Receive FB Messages
   this.getMessage = function (req, res) {
@@ -113,7 +121,7 @@ function messageController () {
     }
     
     // FB Send API
-    function callSendAPI(messageData) {
+    function callSendAPI(messageData, PAGE_ACCESS_TOKEN) {
       request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: PAGE_ACCESS_TOKEN },
