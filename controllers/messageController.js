@@ -3,19 +3,26 @@
 function messageController () {
 
   var Message = {};
-  //var PAGE_ACCESS_TOKEN = {};
+  var pageAccessToken;
 	
 
     
   // Send New Message
   this.sendMessage = function (req, res, next) {
+     
+     pageAccessToken       = req.params.PAGE_ACCESS_TOKEN;
 
      var recipientID       = req.params.recipient.id;
      var recipientTel      = req.params.recipient.tel;
-     var messageData       = req.params.messageData;
-     var PAGE_ACCESS_TOKEN = req.params.PAGE_ACCESS_TOKEN;
+     var trackingMessage   = req.params.trackingMessage;
       
-     callSendAPI(messageData, PAGE_ACCESS_TOKEN);
+     //callSendAPI(messageData, PAGE_ACCESS_TOKEN);
+     var message = req.params;
+      
+     sendTrackingMessage(trackingMessage);
+      
+     return res.send({'message':message,'status':'successfully sent'}); 
+      
       
   };  
     
@@ -106,6 +113,45 @@ function messageController () {
       }
     }
     
+    // Send Tracking Message
+    function sendTrackingMessage(trackingMessage) {
+        
+      var recipientId = trackingMessage.recipient_id,
+          trackingUrl = trackingMessage.tracking_url,
+          imageUrl    = trackingMessage.image_url;
+        
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "generic",
+              elements: [{
+                title: "Narvar Tracking",
+                subtitle: "Tracking Your Package",
+                item_url: trackingUrl,               
+                image_url: imageUrl,
+                buttons: [{
+                  type: "web_url",
+                  url: trackingUrl,
+                  title: "Track Your Shipment"
+                }, {
+                  type: "postback",
+                  title: "Call Postback",
+                  payload: "Payload for first bubble",
+                }]
+              }]
+            }
+          }
+        }
+      };  
+
+      callSendAPI(messageData);
+    }
+    
     // Create Message
     function sendTextMessage(recipientId, messageText) {
       var messageData = {
@@ -121,10 +167,10 @@ function messageController () {
     }
     
     // FB Send API
-    function callSendAPI(messageData, PAGE_ACCESS_TOKEN) {
+    function callSendAPI(messageData) {
       request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: PAGE_ACCESS_TOKEN },
+        qs: { access_token: pageAccessToken},
         method: 'POST',
         json: messageData
 
