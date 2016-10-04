@@ -11,6 +11,7 @@ app.use(logger('dev'));
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
+app.use(restify.urlEncodedBodyParser({ mapParams : false }));
  
 app.listen(process.env.PORT || config.port, function() {
 	console.log('server listening on port number', config.port);	
@@ -35,7 +36,7 @@ const SERVER_URL = config.serverURL;
 
 
 // for Facebook verification
-app.get('/webhook/', function (req, res, next) {
+app.get('/webhook', function (req, res, next) {
     if (req.query['hub.verify_token'] === 'narvar_verification_token') {
         res.send(req.query['hub.challenge'])
     }
