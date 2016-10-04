@@ -200,6 +200,7 @@ function receivedAuthentication(event) {
   var recipientID = event.recipient.id;
   var timeOfAuth = event.timestamp;
   console.log('RECIPIENT ID:', recipientID );
+  console.log('SENDER ID:', senderID );
   // The 'ref' field is set in the 'Send to Messenger' plugin, in the 'data-ref'
   // The developer can set this to an arbitrary value to associate the 
   // authentication callback with the 'Send to Messenger' click event. This is
