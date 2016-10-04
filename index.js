@@ -5,7 +5,7 @@ var app     = restify.createServer({name:'Narvar-Bot'});
     
 https             = require('https');
 request           = require('request');
-PAGE_ACCESS_TOKEN = config.pageAccessToken;
+pageAccessToken = config.pageAccessToken;
  
 app.use(logger('dev'));
 app.use(restify.fullResponse());

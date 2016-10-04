@@ -4,6 +4,7 @@ function messageController () {
 
 //  var https   = require('https');
 //  var request = require('request');
+var PAGE_ACCESS_TOKEN = pageAccessToken;
     
   // Send New Message
   this.sendMessage = function (req, res, next) {
