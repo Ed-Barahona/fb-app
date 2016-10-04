@@ -1,5 +1,5 @@
-const restify = require('restify');
 const config  = require('./config');
+const restify = require('restify');
 const app     = restify.createServer({name:'REST-api'});
  
 app.use(restify.fullResponse());
@@ -32,3 +32,51 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
   process.exit(1);
 }
+
+// Facebook Webhook
+app.get('/webhook', function (req, res) {
+        
+        if (req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+            res.send(req.query['hub.challenge']);
+            res.sendStatus(200);
+        } else {
+            res.send('Invalid verify token');
+            res.sendStatus(403);
+        }
+});
+
+  // Receive FB Messages
+app.post('/webhook', (req, res) {
+      var data = req.body;
+
+      // Make sure this is a page subscription
+      if (data.object == 'page') {
+        // Iterate over each entry
+        // There may be multiple if batched
+        data.entry.forEach(function(pageEntry) {
+          var pageID = pageEntry.id;
+          var timeOfEvent = pageEntry.time;
+
+          // Iterate over each messaging event
+          pageEntry.messaging.forEach(function(messagingEvent) {
+            if (messagingEvent.optin) {
+              receivedAuthentication(messagingEvent);
+            } else if (messagingEvent.message) {
+              receivedMessage(messagingEvent);
+            } else if (messagingEvent.delivery) {
+              receivedDeliveryConfirmation(messagingEvent);
+            } else if (messagingEvent.postback) {
+              receivedPostback(messagingEvent);
+            } else {
+              console.log("Webhook received unknown messagingEvent: ", messagingEvent);
+            }
+          });
+        });
+
+        // Assume all went well.
+        //
+        // You must send back a 200, within 20 seconds, to let us know you've 
+        // successfully received the callback. Otherwise, the request will time out.
+        res.sendStatus(200);
+      }
+    });

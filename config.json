@@ -2,7 +2,7 @@
     "dbPath": "mongodb://localhost/rest-api",
     "appSecret": "29859ea9aca3e5ceb9ad383ef877c3dc",
     "pageAccessToken": "EAAFIWilTObMBANPZAivvPYx0OsDZCbGHLjyBJUU4hcuqLzWRetNPJN6WqY8ZAgMnZB51BqZCXjVQL3k14l9ADMZBPIOSGC4MxsgKDFinc4vJ6JJmZANklUmLACPvpBZCSTNEMEdi3kFFhKlVf5fDloPSQ2NZClgE52ApW44xNI6EaY1vLBaBlmFEB",
-    "validationToken": "narvar12345",
+    "validationToken": "narvar_verification_token",
     "serverURL": "https://qa.narvar.com/fbmsg",
     "port": 5000
 }

@@ -2,8 +2,6 @@
 
 function messageController () {
 
-  var Message = {};
-  var pageAccessToken;
 	
 
     
