@@ -2,6 +2,6 @@
     "appSecret": "1195921577139948",
     "pageAccessToken": "EAAQZCrzDI3uwBAIjEH9Jr4W5fjbj88IBw0dHnbx1RD94kOh8vp2Yz0j0CApK3fHJ1uWKzxWmE3rCn9aT3SZBgZCo0aF4KZAm7sbmbjX54PAxsOw0wdqiYLx5E8sOs8FirV3pBVZA7pHND0A0drhgPp0ZBEwHprduUnDFg3oisPPaweNZCnboOFR",
     "validationToken": "narvar_verification_token",
-    "serverURL": "https://qa.narvar.com/fbmsg/",
+    "serverURL": "https://guarded-ravine-89349.herokuapp.com/",
     "port": 5000
 }

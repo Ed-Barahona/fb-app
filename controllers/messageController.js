@@ -18,7 +18,7 @@ var PAGE_ACCESS_TOKEN = pageAccessToken;
       
      sendTrackingMessage(trackingMessage);
      //return res.sendStatus(200);
-     return res.send({'message':message,'status':'message received sent to FB','code':200}); 
+     return res.send({'message':message,'status':'Tracking message forwarded to messenger','code':200}); 
       
       
   };  
