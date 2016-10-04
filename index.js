@@ -1,6 +1,6 @@
 var restify = require('restify');
-var logger  = require('morgan');
 var config  = require('./config');
+var logger  = require('morgan');
 var app     = restify.createServer({name:'Narvar-Bot'});
  
 app.use(logger('dev'));
@@ -8,13 +8,10 @@ app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
  
-//app.listen(config.port, function() {
-//	console.log('server listening on port number', config.port);	
-//});
-
-app.listen(5000, function () {
-  console.log('%s listening at %s', server.name, server.url);
+app.listen(process.evn.PORT || config.port, function() {
+	console.log('server listening on port number', config.port);	
 });
+
 
 var routes = require('./routes')(app);
 
