@@ -2,8 +2,8 @@
 
 function messageController () {
 
-  var https   = require('https');
-    var request = require('request');
+//  var https   = require('https');
+//  var request = require('request');
     
   // Send New Message
   this.sendMessage = function (req, res, next) {

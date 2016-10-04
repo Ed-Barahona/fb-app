@@ -1,9 +1,11 @@
 var restify = require('restify');
 var config  = require('./config');
 var logger  = require('morgan');
-var https   = require('https');
-var request = require('request');
 var app     = restify.createServer({name:'Narvar-Bot'});
+    
+https             = require('https');
+request           = require('request');
+PAGE_ACCESS_TOKEN = config.pageAccessToken;
  
 app.use(logger('dev'));
 app.use(restify.fullResponse());
