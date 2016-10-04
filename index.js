@@ -1,7 +1,9 @@
 var restify = require('restify');
+var config  = require('morgan');
 var config  = require('./config');
-var app     = restify.createServer({name:'REST-api'});
+var app     = restify.createServer({name:'Narvar-Bot'});
  
+app.use(logger('dev'));
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
