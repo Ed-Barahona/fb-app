@@ -38,7 +38,7 @@ app.get('/webhook', function (req, res) {
         
         if (req.query['hub.verify_token'] === 'narvar_verification_token') {
             res.send(req.query['hub.challenge']);
-            res.sendStatus(200);
+       
         } else {
             res.send('Invalid verify token');
             res.sendStatus(403);
