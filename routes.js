@@ -24,6 +24,10 @@ module.exports = function(app) {
       }  
     });
     
+    app.get('/token', function(req, res, next) {
+		return res.send("token", VALIDATION_TOKEN);
+	});
+    
     // BE Narvar FB Sign up
     app.post('/signup', user.signup);
     
