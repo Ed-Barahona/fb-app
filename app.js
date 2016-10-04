@@ -199,7 +199,7 @@ function receivedAuthentication(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
   var timeOfAuth = event.timestamp;
-
+  console.log('RECIPIENT ID:', recipientID );
   // The 'ref' field is set in the 'Send to Messenger' plugin, in the 'data-ref'
   // The developer can set this to an arbitrary value to associate the 
   // authentication callback with the 'Send to Messenger' click event. This is
@@ -213,7 +213,7 @@ function receivedAuthentication(event) {
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
-  sendTextMessage(senderID, "Thank you for signing up with Narvar Tracking Updates!");
+  sendTextMessage(senderID, "Thank you for signing up with Narvar Tracking Updates!: " + recipientID);
 }
 
 /*
