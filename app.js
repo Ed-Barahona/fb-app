@@ -585,12 +585,11 @@ function sendButtonMessage(recipientId) {
 
     // Send Tracking Message
     function sendTrackingMessage(trackingMessage) {
-      
         
       var recipientId = trackingMessage.recipient_id,
           trackingUrl = trackingMessage.tracking_url,
           imageUrl    = trackingMessage.image_url;
-        
+      console.log("tracking recipient:", recipientId);    
       var messageData = {
         recipient: {
           id: recipientId
@@ -599,7 +598,7 @@ function sendButtonMessage(recipientId) {
           attachment: {
             type: "template",
             payload: {
-              template_type: "tracking",
+              template_type: "generic",
               elements: [{
                 title: "Narvar Tracking",
                 subtitle: "Tracking Your Package",
@@ -609,10 +608,10 @@ function sendButtonMessage(recipientId) {
                   type: "web_url",
                   url: trackingUrl,
                   title: "Track Your Shipment"
-                }, {
-                  type: "postback",
-                  title: "Call Postback",
-                  payload: "Payload for first bubble",
+                },{
+                type: "postback",
+                title: "Call Postback",
+                payload: "Payload for first bubble",
                 }]
               }]
             }
@@ -622,6 +621,30 @@ function sendButtonMessage(recipientId) {
 
       callSendAPI(messageData);
     }
+
+
+/*
+ * Send an image using the Send API.
+ *
+ */
+//function sendImageMessage(recipientId) {
+//  var messageData = {
+//    recipient: {
+//      id: recipientId
+//    },
+//    message: {
+//      attachment: {
+//        type: "image",
+//        payload: {
+//          url: SERVER_URL + "/assets/rift.png"
+//        }
+//      }
+//    }
+//  };
+//
+//  callSendAPI(messageData);
+//}
+
 
 /*
  * Send a Structured Message (Generic Message type) using the Send API.
