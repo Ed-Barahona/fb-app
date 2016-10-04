@@ -17,7 +17,7 @@ module.exports = function(app) {
     // FB Authentication    
     app.get('/webhook', function(req, res) {
       if (req.query['hub.mode'] === 'subscribe' &&
-          req.query['hub.verify_token'] === 'narvar12345') {
+          req.query['hub.verify_token'] === 'narvar_verify_token') {
         console.log("Validating webhook");
         res.status(200).send(req.query['hub.challenge']);
       } else {
