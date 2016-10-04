@@ -110,6 +110,25 @@ app.post('/webhook', function (req, res) {
   }
 });
 
+
+/*
+ * All callbacks for Messenger are POST-ed. They will be sent to the same
+ * webhook. Be sure to subscribe your app to your page to receive callbacks
+ * for your page. 
+ * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
+ *
+ */
+app.post('/message', function (req, res) {
+  var data = req.body;
+
+    console.log(req);
+    
+    res.sendStatus(200);
+  }
+});
+
+
+
 /*
  * This path is used for account linking. The account linking call-to-action
  * (sendAccountLinking) is pointed to this URL. 
@@ -558,6 +577,46 @@ function sendButtonMessage(recipientId) {
 
   callSendAPI(messageData);
 }
+
+    // Send Tracking Message
+    function sendTrackingMessage(trackingMessage) {
+      
+        
+      var recipientId = trackingMessage.recipient_id,
+          trackingUrl = trackingMessage.tracking_url,
+          imageUrl    = trackingMessage.image_url;
+        
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "tracking",
+              elements: [{
+                title: "Narvar Tracking",
+                subtitle: "Tracking Your Package",
+                item_url: trackingUrl,               
+                image_url: imageUrl,
+                buttons: [{
+                  type: "web_url",
+                  url: trackingUrl,
+                  title: "Track Your Shipment"
+                }, {
+                  type: "postback",
+                  title: "Call Postback",
+                  payload: "Payload for first bubble",
+                }]
+              }]
+            }
+          }
+        }
+      };  
+
+      callSendAPI(messageData);
+    }
 
 /*
  * Send a Structured Message (Generic Message type) using the Send API.
