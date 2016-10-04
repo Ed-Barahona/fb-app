@@ -122,8 +122,8 @@ app.post('/message', function (req, res) {
   var data = req.body;
 
     console.log(req);
-    
-    res.sendStatus(200);
+    res.status(200).send('Post received');
+    //res.sendStatus(200);
   
 });
 
