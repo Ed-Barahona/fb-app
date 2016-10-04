@@ -2,8 +2,6 @@
 
 function messageController () {
 
-	
-
     
   // Send New Message
   this.sendMessage = function (req, res, next) {
@@ -15,7 +13,7 @@ function messageController () {
       
      var message = req.params;
       
-     sendTrackingMessage(trackingMessage);
+     //sendTrackingMessage(trackingMessage);
      //return res.sendStatus(200);
      return res.send({'message':message,'status':'message received sent to FB'}); 
       
@@ -135,7 +133,7 @@ function messageController () {
           attachment: {
             type: "template",
             payload: {
-              template_type: "generic",
+              template_type: "tracking",
               elements: [{
                 title: "Narvar Tracking",
                 subtitle: "Tracking Your Package",
