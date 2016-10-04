@@ -1,7 +1,6 @@
 //This Controller deals with all functionalities of Messages
 
 function messageController () {
-
     
   // Send New Message
   this.sendMessage = function (req, res, next) {
@@ -13,9 +12,9 @@ function messageController () {
       
      var message = req.params;
       
-     //sendTrackingMessage(trackingMessage);
+     sendTrackingMessage(trackingMessage);
      //return res.sendStatus(200);
-     return res.send({'message':message,'status':'message received sent to FB'}); 
+     return res.status(200).send({'message':message,'status':'message received sent to FB'}); 
       
       
   };  
@@ -120,6 +119,7 @@ function messageController () {
     
     // Send Tracking Message
     function sendTrackingMessage(trackingMessage) {
+      console.log(trackingMessage);
         
       var recipientId = trackingMessage.recipient_id,
           trackingUrl = trackingMessage.tracking_url,
