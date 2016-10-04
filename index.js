@@ -36,7 +36,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
 // Facebook Webhook
 app.get('/webhook', function (req, res) {
         
-        if (req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+        if (req.query['hub.verify_token'] === 'narvar_verification_token') {
             res.send(req.query['hub.challenge']);
             res.sendStatus(200);
         } else {
