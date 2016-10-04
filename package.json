@@ -1,27 +1,27 @@
 {
-  "name": "messenger-get-started",
+  "name": "fb-app",
   "version": "1.0.0",
-  "description": "Get started example for Messenger Platform",
-  "main": "app.js",
+  "description": "Narvar Facebook Messenger Application",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "lint": "jshint --exclude node_modules .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fbsamples/messenger-platform-samples.git"
+    "url": "(git://github.com/narvar/fb-app.git)"
   },
-  "author": "Facebook",
+  "keywords": [
+    "Narvar",
+    "FB",
+    "App"
+  ],
+  "author": "Narvar - Ed Barahona",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.0",
-    "config": "^1.20.4",
-    "ejs": "^2.4.2",
-    "express": "^4.13.4",
-    "request": "^2.72.0"
-  },
-  "engines": {
-    "node": "~4.1.2"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.75.0",
+    "restify": "^4.1.1"
   }
 }
