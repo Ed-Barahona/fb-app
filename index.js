@@ -1,5 +1,6 @@
 const config  = require('./config');
 const restify = require('restify');
+const https = require('https');
 const app     = restify.createServer({name:'REST-api'});
  
 app.use(restify.fullResponse());
@@ -33,16 +34,21 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   process.exit(1);
 }
 
-// Facebook Webhook
-app.get('/webhook', function (req, res) {
-        
-        if (req.query['hub.verify_token'] === 'narvar_verification_token') {
-            res.send(req.query['hub.challenge']);
-       
-        } else {
-            res.send('Invalid verify token');
-            res.sendStatus(403);
-        }
+
+/*
+ * Use your own validation token. Check that the token used in the Webhook 
+ * setup is the same token used here.
+ *
+ */
+app.get('/webhook', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' &&
+      req.query['hub.verify_token'] ===  'narvar_verification_token') {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);          
+  }  
 });
 
   // Receive FB Messages
