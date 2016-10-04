@@ -3,6 +3,6 @@
     "appSecret": "29859ea9aca3e5ceb9ad383ef877c3dc",
     "pageAccessToken": "EAAFIWilTObMBAFmYqNqj6w3DYYNzwkzB6jsNC5FN3xMqif5NkjvPHuLiBK0H2ZCN0s7Hxjiz7Cb089JJ7fCgV2pcEdS8v9HViaDxYX6z9ZBQePc2TIRduyavRR8gL8uCGgH2nAQbht1lXn3tLJn6Gsx4SZB6z39xyZAdC65wvZCJ3KuHgmGiv",
     "validationToken": "narvar12345",
-    "serverURL": "https://qa.narvar.com/fbmsg/",
+    "serverURL": "https://qa.narvar.com/fbmsg",
     "port": 5000
 }
