@@ -208,7 +208,7 @@ function receivedAuthentication(event) {
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
-  sendTextMessage(senderID, "Authentication successful");
+  sendTextMessage(senderID, "Thank you for signing up with Narvar Tracking Updates!");
 }
 
 /*
