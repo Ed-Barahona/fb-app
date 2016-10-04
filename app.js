@@ -119,12 +119,16 @@ app.post('/webhook', function (req, res) {
  *
  */
 app.post('/message', function (req, res) {
-  var data = req.body;
-
-    console.log(req);
-    res.status(200).send('Post received');
+    var data            = req.body;
+    var trackingMessage = req.body;
+    
+    if(trackingMessage){
+        res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
+    } else {
+        
+    }
+    //res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
     //res.sendStatus(200);
-  
 });
 
 
