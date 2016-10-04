@@ -24,6 +24,6 @@ module.exports = function(app) {
     app.post('/message', message.sendMessage); 
     
     // FB Receive Messages
-    //app.post('/webhook', message.getMessage); 
+    app.post('/webhook', message.getMessage); 
     
 };
