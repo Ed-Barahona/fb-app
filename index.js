@@ -8,11 +8,13 @@ app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
  
-app.listen(config.port, function() {
-	console.log('server listening on port number', config.port);	
+//app.listen(config.port, function() {
+//	console.log('server listening on port number', config.port);	
+//});
+
+app.listen(5000, function () {
+  console.log('%s listening at %s', server.name, server.url);
 });
-
-
 
 var routes = require('./routes')(app);
 
