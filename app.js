@@ -609,10 +609,6 @@ function sendButtonMessage(recipientId) {
                   type: "web_url",
                   url: trackingUrl,
                   title: "Track Your Shipment"
-                },{
-                type: "postback",
-                title: "Call Postback",
-                payload: "Payload for first bubble",
                 }]
               }]
             }
