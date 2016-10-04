@@ -31,8 +31,10 @@ const SERVER_URL = config.serverURL;
 
 // for Facebook verification
 app.get('/webhook/', function (req, res, next) {
+    console.log('req', req);
+    console.log('params', req.params);
     if (req.params.query['hub.verify_token'] === 'narvar_verification_token') {
-        res.send(req.parms.query['hub.challenge'])
+        res.send(req.params.query['hub.challenge'])
     }
     res.send('Error, wrong token')
 })
