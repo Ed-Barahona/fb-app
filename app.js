@@ -124,7 +124,7 @@ app.post('/message', function (req, res) {
     console.log(req);
     
     res.sendStatus(200);
-  }
+  
 });
 
 
