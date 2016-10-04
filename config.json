@@ -3,6 +3,6 @@
     "appSecret": "29859ea9aca3e5ceb9ad383ef877c3dc",
     "pageAccessToken": "EAAFIWilTObMBAMfIJAQIIo52hWNU5k7LHASxLzQnrs6fyAwz1eiGNrZCO6ZCEzw2w4EMxqas33wM1NjspwUOl8Niow9h2SwT2lh6TEFYqesQWKcKG8GWDhPo5TbZBzcGQpX9RmYiyQjyUsVCjkN0XG5wSAIKZBlTFCiFZAabKJcFmgmLJEZCRg",
     "validationToken": "narvar12345",
-    "serverURL": "https://qa.narvar.com/fbmessenger/",
+    "serverURL": "https://qa.narvar.com/fbmsg/",
     "port": 5000
 }
