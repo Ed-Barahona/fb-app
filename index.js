@@ -1,13 +1,32 @@
-var restify = require('restify');
-var config  = require('./config');
-var app     = restify.createServer({name:'REST-api'});
+const restify = require('restify');
+const config  = require('./config');
+const app     = restify.createServer({name:'REST-api'});
  
 app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
  
 app.listen(config.port, function() {
-	console.log('server listening on port number', config.port);	
+	console.log('server listening on port number', config.port);
 });
 
 var routes = require('./routes')(app);
+
+
+// App Secret can be retrieved from the App Dashboard
+const APP_SECRET = config.appSecret;
+
+// Arbitrary value used to validate a webhook
+const VALIDATION_TOKEN = config.validationToken;
+
+// Generate a page access token for your page from the App Dashboard
+const PAGE_ACCESS_TOKEN = config.pageAccessToken;
+
+// URL where the app is running (include protocol). Used to point to scripts and 
+// assets located at this address. 
+const SERVER_URL = config.serverURL;
+
+if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
+  console.error("Missing config values");
+  process.exit(1);
+}

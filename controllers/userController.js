@@ -9,9 +9,9 @@ function userController () {
 	// FB Messenger sign up
 	this.signup = function (req, res, next) {
 		
-        var smsPackage  = req.params;
+        var trackingInfo  = req.params;
         
-        callSmsAPI(smsPackage);
+        callNarvarAPI(smsPackage);
         
         return res.send({'SMS Request Details':req.params});
 	};
@@ -23,7 +23,7 @@ function userController () {
     
    
     // Narvar SMS API
-    function callSmsAPI(trackingData) {
+    function callNarvarAPI(trackingData) {
         
       var retailerName = trackingData.retailer;    
         

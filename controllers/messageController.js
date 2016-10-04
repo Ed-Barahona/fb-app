@@ -10,13 +10,11 @@ function messageController () {
   // Send New Message
   this.sendMessage = function (req, res, next) {
      
-     pageAccessToken       = req.params.PAGE_ACCESS_TOKEN;
+     //pageAccessToken       = req.params.PAGE_ACCESS_TOKEN;
 
-     var recipientID       = req.params.recipient.id;
-     var recipientTel      = req.params.recipient.tel;
-     var trackingMessage   = req.params.trackingMessage;
+     //var recipientID       = req.params.recipient.id;
+     var trackingMessage   = req.params;
       
-     //callSendAPI(messageData, PAGE_ACCESS_TOKEN);
      var message = req.params;
       
      sendTrackingMessage(trackingMessage);
@@ -65,6 +63,16 @@ function messageController () {
     /////////////////////////////////////////////////////////////////////////////
     // PRIVATE METHODS                                                         //
     /////////////////////////////////////////////////////////////////////////////
+    
+    // User Opt-In
+    function receivedAuthentication(trackingInfo){
+        console.log('Authentication Event', trackingInfo);
+        // Call Narvar BE API
+        var retailerName = trackingInfo.optin.ref.retailer_name;
+        
+        callNarvarAPI(trackingInfo, retailerName);
+    };
+    
     
     // Echo back received message
     function receivedMessage(event) {
@@ -170,7 +178,7 @@ function messageController () {
     function callSendAPI(messageData) {
       request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: { access_token: pageAccessToken},
+        qs: { access_token: PAGE_ACCESS_TOKEN},
         method: 'POST',
         json: messageData
 
@@ -183,6 +191,29 @@ function messageController () {
             messageId, recipientId);
         } else {
           console.error("Unable to send message.");
+          console.error(response);
+          console.error(error);
+        }
+      });  
+    }
+    
+    // Narvar Sign Up API
+    function callNarvarAPI(trackingData, retailerName) {
+        
+      //var retailerName = trackingData.retailer;    
+        
+      request({
+        uri: hostURL + '/fbmessenger/' + retailerName + '/signup/',
+        method: 'POST',
+        json: trackingData
+
+      }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            
+          console.log("Successfully signed up", 
+            trackingData);
+        } else {
+          console.error("Unable to sign up.");
           console.error(response);
           console.error(error);
         }
