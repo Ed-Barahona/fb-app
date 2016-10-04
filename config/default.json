@@ -1,6 +1,6 @@
 {
-    "appSecret": "29859ea9aca3e5ceb9ad383ef877c3dc",
-    "pageAccessToken": "EAAFIWilTObMBAJEFAJG6r2RHGg1gYjJMyZAHP1mmwWmBsYgzuoG8oWb49RHjJZAfqIORfLAoIFOR8u1OiP6SDqTlaOaXICKHdJSFxJys8PuDKHYYUCXvyZB5Ea4GMYZC3Wc0wIaxEPBVUQyWSYgMPpNTw8vgUjZBKW1yGZBn7LJlRwgPqp40pD",
-    "validationToken": "1234",
-    "serverURL": "https://evening-inlet-36948.herokuapp.com/"
+    "appSecret": "ebeda2ee1d66ccfae76340cea93f41d1",
+    "pageAccessToken": "EAAQZCrzDI3uwBAIjEH9Jr4W5fjbj88IBw0dHnbx1RD94kOh8vp2Yz0j0CApK3fHJ1uWKzxWmE3rCn9aT3SZBgZCo0aF4KZAm7sbmbjX54PAxsOw0wdqiYLx5E8sOs8FirV3pBVZA7pHND0A0drhgPp0ZBEwHprduUnDFg3oisPPaweNZCnboOFR",
+    "validationToken": "narvar_verification_token",
+    "serverURL": "https://guarded-ravine-89349.herokuapp.com/webhook"
 }
