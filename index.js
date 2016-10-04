@@ -1,6 +1,6 @@
 const config  = require('./config');
 const restify = require('restify');
-const https   = require('https');
+//const https   = require('https');
 const app     = restify.createServer({name:'fb-app'});
  
 app.use(restify.fullResponse());
@@ -37,7 +37,7 @@ app.get('/webhook', function (req, res, next) {
    
     console.log('params', req.query);
     if (req.query['hub.verify_token'] === 'narvar_verification_token') {
-        res.send(req.params.query['hub.challenge']);
+        res.send(req.query['hub.challenge']);
     } else {
     console.error("Failed validation. Make sure the validation tokens match.");
     //res.sendStatus(403);          
