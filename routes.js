@@ -1,7 +1,14 @@
 module.exports = function(app) {
     
-    var message = require('./controllers/messageController');
-    var user = require('./controllers/userController');
+    const config  = require('./config');
+    var message   = require('./controllers/messageController');
+    var user      = require('./controllers/userController');
+    
+    // App Secret can be retrieved from the App Dashboard
+    const APP_SECRET        = config.appSecret,
+          VALIDATION_TOKEN  = config.validationToken,
+          PAGE_ACCESS_TOKEN = config.pageAccessToken,
+          SERVER_URL        = config.serverURL;
 	
 	// Hello world tests
     app.get('/', function(req, res, next) {
