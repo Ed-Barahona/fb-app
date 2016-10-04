@@ -15,9 +15,9 @@ function messageController () {
       
      var message = req.params;
       
-     //sendTrackingMessage(trackingMessage);
+     sendTrackingMessage(trackingMessage);
      //return res.sendStatus(200);
-     return res.send({'message':message,'status':'successfully sent'}); 
+     return res.send({'message':message,'status':'message received sent to FB'}); 
       
       
   };  
