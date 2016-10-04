@@ -8,7 +8,7 @@ app.use(restify.fullResponse());
 app.use(restify.bodyParser());
 app.use(restify.queryParser());
  
-app.listen(process.evn.PORT || config.port, function() {
+app.listen(process.env.PORT || config.port, function() {
 	console.log('server listening on port number', config.port);	
 });
 
