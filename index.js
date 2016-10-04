@@ -1,5 +1,5 @@
 var restify = require('restify');
-var config  = require('morgan');
+var morgan  = require('morgan');
 var config  = require('./config');
 var app     = restify.createServer({name:'Narvar-Bot'});
  
