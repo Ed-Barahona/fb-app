@@ -4,8 +4,11 @@ const https   = require('https');
 const app     = restify.createServer({name:'fb-app'});
  
 app.use(restify.fullResponse());
-app.use(restify.bodyParser());
+//app.use(restify.bodyParser());
+app.use(restify.bodyParser({ mapParams: false }));
 app.use(restify.queryParser());
+app.use(restify.jsonp());
+app.use(restify.requestLogger());
  
 app.listen(config.port, function() {
 	console.log('server listening on port number', config.port);
@@ -30,13 +33,16 @@ const SERVER_URL = config.serverURL;
 
 
 // for Facebook verification
-app.get('/webhook/', function (req, res, next) {
-    console.log('req', req);
-    console.log('params', req.params);
-    if (req.params.query['hub.verify_token'] === 'narvar_verification_token') {
-        res.send(req.params.query['hub.challenge'])
-    }
-    res.send('Error, wrong token')
+app.get('/webhook', function (req, res, next) {
+   
+    
+    if (req.query['hub.verify_token'] === 'narvar_verification_token') {
+        res.send(req.query['hub.challenge'])
+        console.log('params', req.query);
+    } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);          
+  }  
 })
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
