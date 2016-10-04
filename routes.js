@@ -1,14 +1,9 @@
 module.exports = function(app) {
     
-    const config  = require('./config');
+
     var message   = require('./controllers/messageController');
     var user      = require('./controllers/userController');
     
-    // App Secret can be retrieved from the App Dashboard
-    const APP_SECRET        = config.appSecret,
-          VALIDATION_TOKEN  = config.validationToken,
-          PAGE_ACCESS_TOKEN = config.pageAccessToken,
-          SERVER_URL        = config.serverURL;
 	
 	// Hello world tests
     app.get('/', function(req, res, next) {
@@ -19,22 +14,7 @@ module.exports = function(app) {
 		return res.send("NARVAR FB MESSENGER REST API - RUNNING");
 	});
     
-    // FB APP Authentication
-    app.get('/webhook', function(req, res) {
-      if (req.query['hub.mode'] === 'subscribe' &&
-          req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-        console.log("Validating webhook");
-        res.status(200).send(req.query['hub.challenge']);
-      } else {
-        console.error("Failed validation. Make sure the validation tokens match.");
-        res.sendStatus(403);          
-      }  
-    });
-    
-    app.get('/token', function(req, res, next) {
-		return res.send("token", VALIDATION_TOKEN);
-	});
-    
+
     // BE Narvar FB Sign up
     app.post('/signup', user.signup);
     

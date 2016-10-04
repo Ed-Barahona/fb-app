@@ -26,6 +26,15 @@ const PAGE_ACCESS_TOKEN = config.pageAccessToken;
 // assets located at this address. 
 const SERVER_URL = config.serverURL;
 
+// FB Authentication
+  app.get('/webhook', function (req, res) {
+    if (req.query['hub.verify_token'] === VALIDATION_TOKEN) {
+      res.send(req.query['hub.challenge']);
+    } else {
+      res.send('Error, wrong validation token');    
+    }
+  });
+
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
   process.exit(1);
