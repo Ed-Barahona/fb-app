@@ -18,10 +18,10 @@ var routes = require('./routes')(app);
 const APP_SECRET = config.appSecret;
 
 // Arbitrary value used to validate a webhook
-const VALIDATION_TOKEN = config.validationToken;
+const VALIDATION_TOKEN = 'narvar_verification_token';//config.validationToken;
 
 // Generate a page access token for your page from the App Dashboard
-const PAGE_ACCESS_TOKEN = config.pageAccessToken;
+const PAGE_ACCESS_TOKEN = 'EAAFIWilTObMBANPZAivvPYx0OsDZCbGHLjyBJUU4hcuqLzWRetNPJN6WqY8ZAgMnZB51BqZCXjVQL3k14l9ADMZBPIOSGC4MxsgKDFinc4vJ6JJmZANklUmLACPvpBZCSTNEMEdi3kFFhKlVf5fDloPSQ2NZClgE52ApW44xNI6EaY1vLBaBlmFEB';//config.pageAccessToken;
 
 // URL where the app is running (include protocol). Used to point to scripts and 
 // assets located at this address. 
@@ -42,7 +42,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  */
 app.get('/webhook', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] ===  'narvar_verification_token') {
+      req.query['hub.verify_token'] ===  VALIDATION_TOKEN) {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
