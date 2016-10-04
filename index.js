@@ -1,18 +1,18 @@
-const config  = require('./config');
-const restify = require('restify');
-//const https   = require('https');
-const app     = restify.createServer({name:'fb-app'});
- 
-app.use(restify.fullResponse());
-//app.use(restify.bodyParser());
-app.use(restify.bodyParser({ mapParams: false }));
-app.use(restify.queryParser());
-app.use(restify.jsonp());
-app.use(restify.requestLogger());
- 
-app.listen(config.port, function() {
-	console.log('server listening on port number', config.port);
-});
+const express = require('express')
+const config  = require('./config')
+const bodyParser = require('body-parser')
+const request = require('request')
+const app = express()
+
+app.set('port', (process.env.PORT || 5000))
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+// Spin up the server
+app.listen(app.get('port'), function() {
+    console.log('server listening on port number', app.get('port'))
+})
 
 var routes = require('./routes')(app);
 
@@ -33,15 +33,12 @@ const SERVER_URL = config.serverURL;
 
 
 // for Facebook verification
-app.get('/webhook', function (req, res, next) {
-   
-    console.log('params', req.query);
+// for Facebook verification
+app.get('/webhook/', function (req, res) {
     if (req.query['hub.verify_token'] === 'narvar_verification_token') {
-        res.send(req.query['hub.challenge']);
-    } else {
-    console.error("Failed validation. Make sure the validation tokens match.");
-    //res.sendStatus(403);          
-  }  
+        res.send(req.query['hub.challenge'])
+    }
+    res.send('Error, wrong token')
 })
 
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
