@@ -1,7 +1,7 @@
 var restify = require('restify');
 var config  = require('./config');
 var logger  = require('morgan');
-var https   = require('https'),  
+var https   = require('https');
 var request = require('request');
 var app     = restify.createServer({name:'Narvar-Bot'});
  
