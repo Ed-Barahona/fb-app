@@ -8,7 +8,7 @@ module.exports = function(app) {
 		return res.send("NARVAR FB MESSENGER REST API - RUNNING");
 	});
     
-    app.get('fbmsg/hello', function(req, res, next) {
+    app.get('/hello', function(req, res, next) {
 		return res.send("NARVAR FB MESSENGER REST API - RUNNING");
 	});
     
@@ -25,12 +25,12 @@ module.exports = function(app) {
     });
     
     // BE Narvar FB Sign up
-    app.post('/fbmsg/signup', user.signup);
+    app.post('/signup', user.signup);
     
     // FB Send Message
-    app.post('/fbmsg/message', message.sendMessage); 
+    app.post('/message', message.sendMessage); 
     
     // FB Receive Messages
-    app.post('/fbmsg/webhook', message.getMessage); 
+    app.post('/webhook', message.getMessage); 
     
 };
