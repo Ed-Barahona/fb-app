@@ -23,8 +23,9 @@ function messageController () {
   };  
     
   // Receive FB Messages
-  this.getMessage = function (req, res) {
-      var data = req.body;
+  this.getMessage = function (req, res, next) {
+      //var data = req.body;
+      var data = req.params.body;
 
       // Make sure this is a page subscription
       if (data.object == 'page') {
