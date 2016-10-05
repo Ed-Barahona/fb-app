@@ -602,9 +602,9 @@ function sendButtonMessage(recipientId) {
           attachment: {
             type: "template",
             payload: {
-              template_type: "generic",
+              template_type: "tracking",
               elements: [{
-                title: "",
+                title: "Narvar Tracking",
                 subtitle: "",
                 item_url: trackingUrl,               
                 image_url: imageUrl,
