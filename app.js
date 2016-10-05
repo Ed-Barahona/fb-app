@@ -584,7 +584,10 @@ function sendButtonMessage(recipientId) {
   callSendAPI(messageData);
 }
 
-    // Send Tracking Message
+    /*
+     * Send Narvar Tracking using the Send API.
+     *
+     */
     function sendTrackingMessage(trackingMessage) {
         
       var recipientId = trackingMessage.recipient_id,
@@ -601,6 +604,8 @@ function sendButtonMessage(recipientId) {
             payload: {
               template_type: "generic",
               elements: [{
+                title: "",
+                subtitle: "",
                 item_url: trackingUrl,               
                 image_url: imageUrl,
                 buttons: [{
@@ -622,7 +627,12 @@ function sendButtonMessage(recipientId) {
  * Send an image using the Send API.
  *
  */
-//function sendImageMessage(recipientId) {
+//function sendTrackingMessage(trackingMessage) {
+//    
+//  var recipientId = trackingMessage.recipient_id,
+//      trackingURL = trackingMessage.tracking_url,
+//      imageURL   = trackingMessage.image_url;
+//    
 //  var messageData = {
 //    recipient: {
 //      id: recipientId
@@ -631,7 +641,7 @@ function sendButtonMessage(recipientId) {
 //      attachment: {
 //        type: "image",
 //        payload: {
-//          url: SERVER_URL + "/assets/rift.png"
+//          url: imageURL
 //        }
 //      }
 //    }
