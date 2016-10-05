@@ -128,8 +128,32 @@ app.post('/message', function (req, res) {
     } else {
         res.status(403).send({'message':data,'status':'Error with your tracking message','code':403}); 
     }
-    //res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
-    //res.sendStatus(200);
+});
+
+
+app.post('/tracking/image', function (req, res) {
+    var data            = req.body;
+    var trackingMessage = req.body;
+    
+    if(trackingMessage){
+        sendTrackingMessage(trackingMessage);
+        res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
+    } else {
+        res.status(403).send({'message':data,'status':'Error with your tracking message','code':403}); 
+    }
+});
+
+
+app.post('/tracking/message', function (req, res) {
+    var data            = req.body;
+    var trackingMessage = req.body;
+    
+    if(trackingMessage){
+        sendTrackingImage(trackingMessage);
+        res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
+    } else {
+        res.status(403).send({'message':data,'status':'Error with your tracking message','code':403}); 
+    }
 });
 
 
@@ -602,10 +626,10 @@ function sendButtonMessage(recipientId) {
           attachment: {
             type: "template",
             payload: {
-              template_type: "tracking",
+              template_type: "generic",
               elements: [{
                 title: "Narvar Tracking",
-                subtitle: "",
+                subtitle: "Tracking your package",
                 item_url: trackingUrl,               
                 image_url: imageUrl,
                 buttons: [{
@@ -627,28 +651,28 @@ function sendButtonMessage(recipientId) {
  * Send an image using the Send API.
  *
  */
-//function sendTrackingMessage(trackingMessage) {
-//    
-//  var recipientId = trackingMessage.recipient_id,
-//      trackingURL = trackingMessage.tracking_url,
-//      imageURL   = trackingMessage.image_url;
-//    
-//  var messageData = {
-//    recipient: {
-//      id: recipientId
-//    },
-//    message: {
-//      attachment: {
-//        type: "image",
-//        payload: {
-//          url: imageURL
-//        }
-//      }
-//    }
-//  };
-//
-//  callSendAPI(messageData);
-//}
+function sendTrackingImage(trackingMessage) {
+    
+  var recipientId = trackingMessage.recipient_id,
+      trackingURL = trackingMessage.tracking_url,
+      imageURL   = trackingMessage.image_url;
+    
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "image",
+        payload: {
+          url: imageURL
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
+}
 
 
 /*
