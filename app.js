@@ -136,7 +136,7 @@ app.post('/tracking/image', function (req, res) {
     var trackingMessage = req.body;
     
     if(trackingMessage){
-        sendTrackingMessage(trackingMessage);
+        sendTrackingImage(trackingMessage);
         res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
     } else {
         res.status(403).send({'message':data,'status':'Error with your tracking message','code':403}); 
