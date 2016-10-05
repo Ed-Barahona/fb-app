@@ -601,8 +601,6 @@ function sendButtonMessage(recipientId) {
             payload: {
               template_type: "generic",
               elements: [{
-                title: "Narvar Tracking",
-                subtitle: "Tracking Your Package",
                 item_url: trackingUrl,               
                 image_url: imageUrl,
                 buttons: [{
