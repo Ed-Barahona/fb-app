@@ -3,11 +3,11 @@
 
 const 
   bodyParser = require('body-parser'),
-  config = require('config'),
-  crypto = require('crypto'),
-  express = require('express'),
-  https = require('https'),  
-  request = require('request');
+  config     = require('config'),
+  crypto     = require('crypto'),
+  express    = require('express'),
+  https      = require('https'),  
+  request    = require('request');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -15,11 +15,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
-/*
- * Be sure to setup your config values before running this code. You can 
- * set them using environment variables or modifying the config file in /config.
- *
- */
+
 
 // App Secret can be retrieved from the App Dashboard
 const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ? 
@@ -42,14 +38,14 @@ const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL');
 
+// Check for credentials and exit if not available
 if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   console.error("Missing config values");
   process.exit(1);
 }
 
 /*
- * Use your own validation token. Check that the token used in the Webhook 
- * setup is the same token used here.
+ * FB validation token
  *
  */
 app.get('/webhook', function(req, res) {
@@ -65,10 +61,7 @@ app.get('/webhook', function(req, res) {
 
 
 /*
- * All callbacks for Messenger are POST-ed. They will be sent to the same
- * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page. 
- * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
+ * All callbacks for Messenger are POST-ed to this webhook
  *
  */
 app.post('/webhook', function (req, res) {
@@ -104,7 +97,7 @@ app.post('/webhook', function (req, res) {
 
     // Assume all went well.
     //
-    // You must send back a 200, within 20 seconds, to let us know you've 
+    // Send back a 200, within 20 seconds, to let FB know we've 
     // successfully received the callback. Otherwise, the request will time out.
     res.sendStatus(200);
   }
@@ -112,11 +105,7 @@ app.post('/webhook', function (req, res) {
 
 
 /*
- * All callbacks for Messenger are POST-ed. They will be sent to the same
- * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page. 
- * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
- *
+ * Narvar Tracking API's all are POST'ed and forward the tracking message to FB
  */
 app.post('/message', function (req, res) {
     var data            = req.body;
@@ -167,7 +156,7 @@ app.get('/authorize', function(req, res) {
   var accountLinkingToken = req.query.account_linking_token;
   var redirectURI = req.query.redirect_uri;
 
-  // Authorization Code should be generated per user by the developer. This will 
+  // Authorization Code should be generated per user. This will 
   // be passed to the Account Linking callback.
   var authCode = "1234567890";
 
@@ -193,17 +182,17 @@ function verifyRequestSignature(req, res, buf) {
   var signature = req.headers["x-hub-signature"];
 
   if (!signature) {
-    // For testing, let's log an error. In production, you should throw an 
+    // For testing, let's log an error. In production, throw an 
     // error.
     console.error("Couldn't validate the signature.");
   } else {
-    var elements = signature.split('=');
-    var method = elements[0];
+    var elements      = signature.split('=');
+    var method        = elements[0];
     var signatureHash = elements[1];
 
-    var expectedHash = crypto.createHmac('sha1', APP_SECRET)
-                        .update(buf)
-                        .digest('hex');
+    var expectedHash  = crypto.createHmac('sha1', APP_SECRET)
+                         .update(buf)
+                         .digest('hex');
 
     if (signatureHash != expectedHash) {
       throw new Error("Couldn't validate the request signature.");
@@ -215,22 +204,19 @@ function verifyRequestSignature(req, res, buf) {
  * Authorization Event
  *
  * The value for 'optin.ref' is defined in the entry point. For the "Send to 
- * Messenger" plugin, it is the 'data-ref' field. Read more at 
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/authentication
+ * Messenger" plugin, it is the 'data-ref' field this passes the tiny URL or UUID
+ * for Narvar tracking
  *
  */
 function receivedAuthentication(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var timeOfAuth = event.timestamp;
+  var senderID         = event.sender.id;
+  var recipientID      = event.recipient.id;
+  var sessionID        = event.optin.ref;
+  var timeOfAuth       = event.timestamp;
+  
   console.log('RECIPIENT ID:', recipientID );
   console.log('SENDER ID:', senderID );
-  // The 'ref' field is set in the 'Send to Messenger' plugin, in the 'data-ref'
-  // The developer can set this to an arbitrary value to associate the 
-  // authentication callback with the 'Send to Messenger' click event. This is
-  // a way to do account linking when the user clicks the 'Send to Messenger' 
-  // plugin.
-  var passThroughParam = event.optin.ref;
+
 
   console.log("Received authentication for user %d and page %d with pass " +
     "through param '%s' at %d", senderID, recipientID, passThroughParam, 
@@ -238,13 +224,14 @@ function receivedAuthentication(event) {
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
+  callNarvarAPI(senderID, sessionID);
   sendTextMessage(senderID, "Thank you for signing up with Narvar Tracking Updates!: " + senderID);
 }
 
 /*
  * Message Event
  *
- * This event is called when a message is sent to your page. The 'message' 
+ * This event is called when a message is sent to Narvar Bot. The 'message' 
  * object format can vary depending on the kind of message that was received.
  * Read more at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-received
  *
@@ -256,24 +243,24 @@ function receivedAuthentication(event) {
  * 
  */
 function receivedMessage(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
+  var senderID      = event.sender.id;
+  var recipientID   = event.recipient.id;
   var timeOfMessage = event.timestamp;
-  var message = event.message;
+  var message       = event.message;
 
   console.log("Received message for user %d and page %d at %d with message:", 
     senderID, recipientID, timeOfMessage);
   console.log(JSON.stringify(message));
 
-  var isEcho = message.is_echo;
+  var isEcho    = message.is_echo;
   var messageId = message.mid;
-  var appId = message.app_id;
-  var metadata = message.metadata;
+  var appId     = message.app_id;
+  var metadata  = message.metadata;
 
   // You may get a text or attachment but not both
-  var messageText = message.text;
+  var messageText        = message.text;
   var messageAttachments = message.attachments;
-  var quickReply = message.quick_reply;
+  var quickReply         = message.quick_reply;
 
   if (isEcho) {
     // Just logging message echoes to console
@@ -903,6 +890,38 @@ function sendAccountLinking(recipientId) {
   };  
 
   callSendAPI(messageData);
+}
+
+
+/*
+ * Call the Narvar Sign Up API
+ *
+ */
+function callNarvarAPI(senderID, sessionID) {
+
+  var trackingData = {
+    recipient_id: senderID,
+    session_id: sessionID
+  };
+  
+  request({
+    uri: 'https://qa.narvar.com/fbmessenger/signup/',
+    method: 'POST',
+    json: trackingData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        
+      var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+
+      if (messageId) {
+        console.log("Successfully sent to Narvar Watchlist");
+      } 
+    } else {
+      console.error("Failed calling Narvar API", response);
+    }
+  });  
 }
 
 /*
