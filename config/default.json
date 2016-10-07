@@ -1,6 +1,6 @@
 {
-    "appSecret": "ebeda2ee1d66ccfae76340cea93f41d1",
-    "pageAccessToken": "EAAQZCrzDI3uwBAEL2ZA07ZCtOFbPrKsfug1EkjOZAd6nQZBWYlHJsHcTZBFS9uO2Ajy5gEoEz0ToepuxStNeeDjJDYehdXiltMz3t827DTUOW9qjrZCdT2dpCtHxko8D3gVc1mhl74Es7LJePHH0APaNpqAWRmIjyP1cWWYOqgE7WF1k9t7ykSa",
+    "appSecret": "748644ee5a4b2c743dfd1e22a0f6b7e5",
+    "pageAccessToken": "EAAXd5OyXBAIBAAFmiMJ2aNN3coDDhqm27UdX8I3o6Qma7OCLIGElJVMu87HgRncZCLmeEsuQe8Irddsd8JwQbxTdjwFzQEo90lwYikXZBlZCAUfxUiYwJZAtZBWS4ZCCsBv3LDuScNzK0EimuTtKRFxJBj3VbOLGrNm0hlFfJNUb28wnUkQDot",
     "validationToken": "narvar_verification_token",
-    "serverURL": "https://guarded-ravine-89349.herokuapp.com/"
+    "serverURL": "https://qa.narvar.com/fbmsg/"
 }
