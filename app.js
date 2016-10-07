@@ -214,10 +214,10 @@ function verifyRequestSignature(req, res, buf) {
  *
  */
 function receivedAuthentication(event) {
-  var senderID         = event.sender.id;
-  var recipientID      = event.recipient.id;
-  var sessionID        = event.optin.ref;
-  var timeOfAuth       = event.timestamp;
+  var senderID    = event.sender.id;
+  var recipientID = event.recipient.id;
+  var sessionID   = event.optin.ref;
+  var timeOfAuth  = event.timestamp;
   
   console.log('RECIPIENT ID:', recipientID );
   console.log('SENDER ID:', senderID );
@@ -903,14 +903,15 @@ function sendAccountLinking(recipientId) {
  *
  */
 function callNarvarAPI(senderID, sessionID) {
-
+ 
+  var narvarURL = hostname + '/fbmessenger/signup/';
   var trackingData = {
     recipient_id: senderID,
     session_id: sessionID
   };
   
   request({
-    uri: 'https://qa.narvar.com/fbmessenger/signup/',
+    uri: narvarURL,
     method: 'POST',
     json: trackingData
 
