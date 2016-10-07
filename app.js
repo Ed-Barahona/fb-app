@@ -9,7 +9,6 @@ const
   https      = require('https'),  
   request    = require('request'),
   os         = require("os"),
-  dns        = require("dns"),
   hostname   = os.hostname();
 
 
@@ -22,23 +21,19 @@ app.use(express.static('public'));
 
 
 
-// App Secret can be retrieved from the App Dashboard
+// App Credentials
 const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ? 
   process.env.MESSENGER_APP_SECRET :
   config.get('appSecret');
 
-// Arbitrary value used to validate a webhook
 const VALIDATION_TOKEN = (process.env.MESSENGER_VALIDATION_TOKEN) ?
   (process.env.MESSENGER_VALIDATION_TOKEN) :
   config.get('validationToken');
 
-// Generate a page access token for your page from the App Dashboard
 const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ?
   (process.env.MESSENGER_PAGE_ACCESS_TOKEN) :
   config.get('pageAccessToken');
 
-// URL where the app is running (include protocol). Used to point to scripts and 
-// assets located at this address. 
 const SERVER_URL = (process.env.SERVER_URL) ?
   (process.env.SERVER_URL) :
   config.get('serverURL');
@@ -176,19 +171,13 @@ app.get('/authorize', function(req, res) {
 });
 
 /*
- * Verify that the callback came from Facebook. Using the App Secret from 
- * the App Dashboard, we can verify the signature that is sent with each 
- * callback in the x-hub-signature field, located in the header.
- *
- * https://developers.facebook.com/docs/graph-api/webhooks#setup
- *
+ * Verify that the callback came from Facebook using App Secret
  */
 function verifyRequestSignature(req, res, buf) {
   var signature = req.headers["x-hub-signature"];
 
   if (!signature) {
-    // For testing, let's log an error. In production, throw an 
-    // error.
+    // Testing logs an error. Production, throw an error
     console.error("Couldn't validate the signature.");
   } else {
     var elements      = signature.split('=');
@@ -206,11 +195,10 @@ function verifyRequestSignature(req, res, buf) {
 }
 
 /*
- * Authorization Event
+ * Opt-In authorization Event
  *
- * The value for 'optin.ref' is defined in the entry point. For the "Send to 
- * Messenger" plugin, it is the 'data-ref' field this passes the tiny URL or UUID
- * for Narvar tracking
+ * The value for 'optin.ref' is defined in the entry point.
+ * It is the 'data-ref' field this passes the tiny URL or UUID for Narvar Tracking
  *
  */
 function receivedAuthentication(event) {
@@ -236,15 +224,10 @@ function receivedAuthentication(event) {
 /*
  * Message Event
  *
- * This event is called when a message is sent to Narvar Bot. The 'message' 
- * object format can vary depending on the kind of message that was received.
- * Read more at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-received
+ * This event is called when a message is sent to Narvar Bot.
  *
- * For this example, we're going to echo any text that we get. If we get some 
- * special keywords ('button', 'generic', 'receipt'), then we'll send back
- * examples of those bubbles to illustrate the special message bubbles we've 
- * created. If we receive a message with an attachment (image, video, audio), 
- * then we'll simply confirm that we've received the attachment.
+ * Echo any text that we get. and trigger message types based on
+ * special keywords ('button', 'generic', 'receipt')
  * 
  */
 function receivedMessage(event) {
@@ -351,8 +334,7 @@ function receivedMessage(event) {
 /*
  * Delivery Confirmation Event
  *
- * This event is sent to confirm the delivery of a message. Read more about 
- * these fields at https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-delivered
+ * This event is sent to confirm the delivery of a message.
  *
  */
 function receivedDeliveryConfirmation(event) {
@@ -378,7 +360,6 @@ function receivedDeliveryConfirmation(event) {
  * Postback Event
  *
  * This event is called when a postback is tapped on a Structured Message. 
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/postback-received
  * 
  */
 function receivedPostback(event) {
@@ -402,7 +383,6 @@ function receivedPostback(event) {
  * Message Read Event
  *
  * This event is called when a previously-sent message has been read.
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-read
  * 
  */
 function receivedMessageRead(event) {
@@ -420,9 +400,7 @@ function receivedMessageRead(event) {
 /*
  * Account Link Event
  *
- * This event is called when the Link Account or UnLink Account action has been
- * tapped.
- * https://developers.facebook.com/docs/messenger-platform/webhook-reference/account-linking
+ * This event is called when the Link Account or UnLink Account action called.
  * 
  */
 function receivedAccountLink(event) {
