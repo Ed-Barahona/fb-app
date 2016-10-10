@@ -464,7 +464,7 @@ function callNarvarAPI(senderID, sessionID) {
   var narvarURL = hostname + '/fbmessenger/signup/';
   var trackingData = {
     recipient_id: senderID,
-    session_id: sessionID
+    facebook_uuid: sessionID
   };
   
   request({
