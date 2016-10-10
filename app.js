@@ -61,10 +61,11 @@ app.get('/webhook', function(req, res) {
   
   console.log('app token:',  VALIDATION_TOKEN);
   console.log('fb token:',  fbToken);
+  console.log('Query:',  req.query);
+  console.log('Request:',  req);
 
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-    console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
     console.error("Failed validation. Make sure the validation tokens match.");
