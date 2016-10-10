@@ -57,13 +57,6 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  */
 app.get('/fbmsg/webhook', function(req, res) {
     
-  var fbToken = req.query['hub.verify_token'];
-  
-  console.log('app token:',  VALIDATION_TOKEN);
-  console.log('fb token:',  fbToken);
-  console.log('Query:',  req.query);
-  console.log('Request:',  req);
-
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
     res.status(200).send(req.query['hub.challenge']);
@@ -216,10 +209,11 @@ function verifyRequestSignature(req, res, buf) {
  *
  */
 function receivedAuthentication(event) {
-  var senderID    = event.sender.id;
-  var recipientID = event.recipient.id;
-  var sessionID   = event.optin.ref;
-  var timeOfAuth  = event.timestamp;
+  var senderID         = event.sender.id;
+  var recipientID      = event.recipient.id;
+  var sessionID        = event.optin.ref;
+  var passThroughParam = event.optin.ref;
+  var timeOfAuth       = event.timestamp;
   
   console.log('RECIPIENT ID:', recipientID );
   console.log('SENDER ID:', senderID );
