@@ -6,6 +6,8 @@ const
   config     = require('config'),
   crypto     = require('crypto'),
   express    = require('express'),
+  fs         = require('fs'),
+  morgan     = require('morgan'),
   https      = require('https'),  
   request    = require('request'),
   os         = require("os"),
@@ -19,7 +21,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'})
 
+// setup the logger
+app.use(morgan('combined', {stream: accessLogStream}))
+app.use(morgan('dev'));
 
 // App Credentials
 const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ? 
@@ -49,28 +56,19 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  *
  */
 app.get('/webhook', function(req, res) {
-  if (req.query['hub.mode'] === 'subscribe' &&
-      req.query['hub.verify_token'] === VALIDATION_TOKEN) {
-    console.log("Validating webhook");
-    res.status(200).send(req.query['hub.challenge']);
-  } else {
-    console.error("Failed validation. Make sure the validation tokens match.");
-    res.sendStatus(403);          
-  }  
-});
+    
+  var fbToken = req.query['hub.verify_token'];
+  
+  console.log('app token:',  VALIDATION_TOKEN);
+  console.log('fb token:',  fbToken);
 
-/*
- * FB validation token
- *
- */
-app.get('/validate', function(req, res) {
   if (req.query['hub.mode'] === 'subscribe' &&
       req.query['hub.verify_token'] === VALIDATION_TOKEN) {
     console.log("Validating webhook");
     res.status(200).send(req.query['hub.challenge']);
   } else {
     console.error("Failed validation. Make sure the validation tokens match.");
-    res.sendStatus(403);          
+    res.sendStatus(403);
   }  
 });
 
