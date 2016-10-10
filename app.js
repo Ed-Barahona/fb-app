@@ -55,7 +55,7 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
  * FB validation token
  *
  */
-app.get('/webhook', function(req, res) {
+app.get('/fbmsg/webhook', function(req, res) {
     
   var fbToken = req.query['hub.verify_token'];
   
@@ -78,7 +78,7 @@ app.get('/webhook', function(req, res) {
  * All callbacks for Messenger are POST-ed to this webhook
  *
  */
-app.post('/webhook', function (req, res) {
+app.post('/fbmsg/webhook', function (req, res) {
   var data = req.body;
 
   // Make sure this is a page subscription
@@ -121,7 +121,7 @@ app.post('/webhook', function (req, res) {
 /*
  * Narvar Tracking API's all are POST'ed and forward the tracking message to FB
  */
-app.post('/message', function (req, res) {
+app.post('/fbmsg/message', function (req, res) {
     var data            = req.body;
     var trackingMessage = req.body;
     
@@ -134,7 +134,7 @@ app.post('/message', function (req, res) {
 });
 
 
-app.post('/tracking/image', function (req, res) {
+app.post('/fbmsg/tracking/image', function (req, res) {
     var data            = req.body;
     var trackingMessage = req.body;
     
@@ -147,7 +147,7 @@ app.post('/tracking/image', function (req, res) {
 });
 
 
-app.post('/tracking/message', function (req, res) {
+app.post('/fbmsg/tracking/message', function (req, res) {
     var data            = req.body;
     var trackingMessage = req.body;
     
@@ -166,7 +166,7 @@ app.post('/tracking/message', function (req, res) {
  * (sendAccountLinking) is pointed to this URL. 
  * 
  */
-app.get('/authorize', function(req, res) {
+app.get('/fbmsg/authorize', function(req, res) {
   var accountLinkingToken = req.query.account_linking_token;
   var redirectURI = req.query.redirect_uri;
 
