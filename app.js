@@ -51,10 +51,6 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   process.exit(1);
 }
 
-
-app.get('/fbmsg/', function(req, res){
-    app.use(express.static('public'));
-});
 /*
  * FB validation token
  *
@@ -119,11 +115,12 @@ app.post('/fbmsg/webhook', function (req, res) {
  * Narvar Tracking API's all are POST'ed and forward the tracking message to FB
  */
 app.post('/fbmsg/message', function (req, res) {
-    var data            = req.body;
-    var trackingMessage = req.body;
     
-    if(trackingMessage){
-        sendTrackingMessage(trackingMessage);
+    var data            = req.body;
+    
+    if(data){
+        
+        sendTrackingMessage(data);
         res.status(200).send({'message':data,'status':'Tracking message forwarded to messenger','code':200}); 
     } else {
         res.status(403).send({'message':data,'status':'Error with your tracking message','code':403}); 
@@ -191,6 +188,7 @@ function verifyRequestSignature(req, res, buf) {
     // Testing logs an error. Production, throw an error
     console.error("Couldn't validate the signature.");
   } else {
+      
     var elements      = signature.split('=');
     var method        = elements[0];
     var signatureHash = elements[1];
@@ -213,18 +211,18 @@ function verifyRequestSignature(req, res, buf) {
  *
  */
 function receivedAuthentication(event) {
-  var senderID         = event.sender.id;
-  var recipientID      = event.recipient.id;
-  var sessionID        = event.optin.ref;
-  var passThroughParam = event.optin.ref;
-  var timeOfAuth       = event.timestamp;
+    
+  var senderID    = event.sender.id,
+      recipientID = event.recipient.id,
+      sessionID   = event.optin.ref,
+      timeOfAuth  = event.timestamp;
   
   console.log('RECIPIENT ID:', recipientID );
   console.log('SENDER ID:', senderID );
 
 
   console.log("Received authentication for user %d and page %d with pass " +
-    "through param '%s' at %d", senderID, recipientID, passThroughParam, 
+    "through param '%s' at %d", senderID, recipientID, sessionID, 
     timeOfAuth);
 
   // When an authentication is received, we'll send a message back to the sender
@@ -243,6 +241,7 @@ function receivedAuthentication(event) {
  * 
  */
 function receivedMessage(event) {
+    
   var senderID      = event.sender.id;
   var recipientID   = event.recipient.id;
   var timeOfMessage = event.timestamp;
@@ -394,10 +393,14 @@ function receivedAccountLink(event) {
      *
      */
     function sendTrackingMessage(trackingMessage) {
+    
+      
         
-      var recipientId = trackingMessage.recipient_id,
-          trackingUrl = trackingMessage.tracking_url,
-          imageUrl    = trackingMessage.image_url;
+      var recipientId  = trackingMessage.recipient_id,
+          trackingURL  = trackingMessage.tracking_url,
+          imageURL     = trackingMessage.image_url,
+          retailerName = trackingMessage.image_url,
+          retailerURL  = trackingMessage.image_url;
         
       console.log("tracking recipient:", recipientId);
         
@@ -412,8 +415,8 @@ function receivedAccountLink(event) {
               template_type: "generic",
               elements: [{
                 title: "Narvar Tracking",
-                subtitle: "Tracking your package",
-                item_url: trackingUrl,               
+                subtitle: "Continue Shopping",
+                item_url: 'http://narvar.com',               
                 image_url: imageUrl,
                 buttons: [{
                   type: "web_url",
@@ -458,7 +461,16 @@ function sendTrackingImage(trackingMessage) {
 }
 
 
-
+/*
+ * Call the Narvar Sign Up API
+ *
+ */
+function parseURL(myURL) {
+ 
+    
+    
+return; 
+}
 /*
  * Call the Narvar Sign Up API
  *
@@ -481,7 +493,7 @@ function callNarvarAPI(senderID, sessionID) {
 
       console.log("Successfully sent to Narvar Watchlist");
     } else {
-      console.error("Failed calling Narvar API", response);
+      console.error("Failed calling Narvar API");
     }
   });  
 }
@@ -514,7 +526,9 @@ function callSendAPI(messageData) {
       console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
     }
   });  
-}
+};
+
+
 
 // Start server
 // Webhooks must be available via SSL with a certificate signed by a valid 
