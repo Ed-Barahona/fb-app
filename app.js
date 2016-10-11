@@ -51,6 +51,10 @@ if (!(APP_SECRET && VALIDATION_TOKEN && PAGE_ACCESS_TOKEN && SERVER_URL)) {
   process.exit(1);
 }
 
+
+app.get('/fbmsg/', function(req, res){
+    app.use(express.static('public'));
+});
 /*
  * FB validation token
  *
@@ -474,13 +478,8 @@ function callNarvarAPI(senderID, sessionID) {
 
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-        
-      var recipientId = body.recipient_id;
-      var messageId = body.message_id;
 
-      if (messageId) {
-        console.log("Successfully sent to Narvar Watchlist");
-      } 
+      console.log("Successfully sent to Narvar Watchlist");
     } else {
       console.error("Failed calling Narvar API", response);
     }
