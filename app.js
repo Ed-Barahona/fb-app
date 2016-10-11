@@ -465,7 +465,7 @@ function sendTrackingImage(trackingMessage) {
  */
 function callNarvarAPI(senderID, sessionID) {
  
-  var narvarURL = hostname + '/fbmessenger/signup/';
+  var narvarURL = 'https://' + hostname + '/fbmessenger/signup/';
   var trackingData = {
     recipient_id: senderID,
     facebook_uuid: sessionID
