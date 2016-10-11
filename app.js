@@ -417,10 +417,10 @@ function receivedAccountLink(event) {
                 title: "Narvar Tracking",
                 subtitle: "Continue Shopping",
                 item_url: 'http://narvar.com',               
-                image_url: imageUrl,
+                image_url: imageURL,
                 buttons: [{
                   type: "web_url",
-                  url: trackingUrl,
+                  url: trackingURL,
                   title: "Track Your Shipment"
                 }]
               }]
